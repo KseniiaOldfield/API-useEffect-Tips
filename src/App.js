@@ -1,23 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState, useEffect } from 'react';
+import image from './tip0.jpg';
+import img from './idea.jpg'
+
 
 function App() {
+
+  const [tips, setTips] = useState("");
+
+  const fetchTips = async () => {
+    const response = await fetch(`http://www.boredapi.com/api/activity/ `);
+    const data = await response.json();
+    setTips(data.activity);
+  }
+  useEffect(() => {
+    fetchTips();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <img  className='logo' src={image} alt='logo'/>
+      <h2 className='tip'>{tips}</h2>
+        <button className='btn' onClick={fetchTips}>New tip</button>
+      <img className='logo' src={img} alt='idea'/>
     </div>
   );
 }
